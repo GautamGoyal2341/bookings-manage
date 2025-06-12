@@ -1,31 +1,26 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
 from django.db import transaction
 from django.utils import timezone
+from rest_framework import status, viewsets
+from rest_framework.views import APIView
+from rest_framework.response import Response
 from rest_framework.generics import ListAPIView
-
-from bookings.permissions import IsAdminUser
-from .models import Room, Booking, User, Team
-from rest_framework.pagination import PageNumberPagination
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import (
+    api_view,
+    permission_classes,
+)
 from rest_framework.permissions import AllowAny
-from rest_framework.pagination import LimitOffsetPagination
-from rest_framework.decorators import authentication_classes
 from rest_framework.authentication import BaseAuthentication
 from rest_framework.exceptions import AuthenticationFailed
+from rest_framework.pagination import  LimitOffsetPagination
 
-
-
+from bookings.permissions import IsAdminUser
+from .models import Room, Booking, User
 from .serializers import (
     CreateBookingSerializer,
     BookingSerializer,
-    RoomSerializer
+    RoomSerializer,
+    UserSerializer
 )
-from rest_framework import viewsets
-from .models import User
-from .serializers import UserSerializer
-
 
 
 @api_view(['POST'])
@@ -39,9 +34,9 @@ def login_view(request):
     
     try:
         user = User.objects.get(email=email)
-        # For simplicity, we'll store plain text password (NOT RECOMMENDED FOR PRODUCTION)
-        # In production, use proper password hashing
-        if user.password == password:  # You'll need to add password field to User model
+        # For Now simplicity, I we'll storing plain text password now
+        # In production, we use proper password hashing
+        if user.password == password: 
             return Response({
                 'user_id': user.id,
                 'email': user.email,
@@ -73,7 +68,7 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-# 1️⃣ BOOKING API
+# BOOKING API
 class BookingCreateView(APIView):
     def post(self, request):
         serializer = CreateBookingSerializer(data=request.data)
@@ -123,7 +118,7 @@ class BookingCreateView(APIView):
 
 
 
-# 2️⃣ CANCEL BOOKING API
+# 2️ CANCEL BOOKING API
 class CancelBookingView(APIView):
     authentication_classes = [SimpleAuthentication]
     permission_classes = [IsAdminUser]
@@ -137,13 +132,14 @@ class CancelBookingView(APIView):
             return Response({'detail': 'Booking not found.'}, status=404)
 
 
-# 3️⃣ LIST ALL BOOKINGS
+
 class BookingPagination(LimitOffsetPagination):
     default_limit = 20  # Number of bookings per page
     limit_query_param = 'limit'
     offset_query_param = 'offset'
     max_limit = 100  # Maximum allowed limit
 
+# 3️ LIST ALL BOOKINGS
 class BookingListView(ListAPIView):
     serializer_class = BookingSerializer
     pagination_class = BookingPagination
@@ -154,8 +150,10 @@ class BookingListView(ListAPIView):
         ).all().order_by('-slot')
 
 
-# 4️⃣ AVAILABLE ROOMS API
+# 4️ AVAILABLE ROOMS API
 class AvailableRoomsView(APIView):
+
+
     def get(self, request):
         slot = request.GET.get('slot')
         if not slot:

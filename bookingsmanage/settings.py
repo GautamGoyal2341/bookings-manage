@@ -74,7 +74,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "bookingsmanage.wsgi.application"
-SECRET_KEY = os.environ.get('SECRET_KEY',"2332")
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 
 # Database

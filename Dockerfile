@@ -1,5 +1,3 @@
-# Dockerfile
-
 FROM python:3.12.3-slim
 
 ENV LANG C.UTF-8
@@ -25,7 +23,5 @@ COPY . .
 # Expose Django's default port
 EXPOSE 8000
 
-# Start gunicorn
-# CMD ["gunicorn", "config.wsgi:application", "-b", "0.0.0.0:8000", "--workers", "3", "--timeout", "600"]
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 
