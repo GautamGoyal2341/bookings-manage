@@ -202,6 +202,22 @@ Cancel a booking (Admin only).
 | Admin | `Admin User`   | `admin123` |
 | User  | `	Regular User` | `user123`  |
 
+### Creating Django Admin User
+
+To access the Django admin panel, create a superuser:
+
+```bash
+docker-compose exec web python manage.py createsuperuser
+```
+
+Follow the prompts:
+
+- **Username**: `root` (or leave blank to use default)
+- **Email address**: (optional)
+- **Password**: 
+
+**Access Admin Panel**: http://127.0.0.1:8000/admin/
+
 ### 📦 Postman Collection
 
 A Postman collection is available with all the above endpoints pre-configured for easy testing and integration.
