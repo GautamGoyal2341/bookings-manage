@@ -7,7 +7,8 @@ from .views import (
     BookingListView,
     AvailableRoomsView,
     UserViewSet,
-    login_view
+    login_view,
+    RoomListView
 )
 
 router = DefaultRouter()
@@ -19,6 +20,7 @@ urlpatterns = [
     
     # Booking endpoints
     path('bookings/', BookingCreateView.as_view(), name='create-booking'),
+    path('rooms/', RoomListView.as_view(), name='all-rooms'),
     path('bookings/all/', BookingListView.as_view(), name='list-bookings'),
     path('cancel/<uuid:booking_id>/', CancelBookingView.as_view(), name='cancel-booking'),
     path('rooms/available/', AvailableRoomsView.as_view(), name='available-rooms'),

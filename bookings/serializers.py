@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from .models import User, Room, Booking, Team
-from django.utils import timezone
-from django.db.models import Count, Q
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -33,9 +32,7 @@ class BookingSerializer(serializers.ModelSerializer):
         fields = ['id', 'slot', 'room', 'user', 'team', 'created_at']
 
 
-# -------------------------------
-# Create Booking Input Serializer
-# -------------------------------
+
 class CreateBookingSerializer(serializers.Serializer):
     slot = serializers.DateTimeField()
     user_id = serializers.IntegerField(required=False)

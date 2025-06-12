@@ -169,3 +169,10 @@ class AvailableRoomsView(APIView):
 
         serializer = RoomSerializer(available_rooms, many=True)
         return Response(serializer.data)
+
+
+class RoomListView(APIView):
+    def get(self, request):
+        rooms = Room.objects.all()
+        serializer = RoomSerializer(rooms, many=True)
+        return Response(serializer.data)
