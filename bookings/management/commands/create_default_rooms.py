@@ -13,15 +13,15 @@ class Command(BaseCommand):
 
         for _ in range(private_count):
             Room.objects.create(room_type='PRIVATE', capacity=1)
-        self.stdout.write(self.style.SUCCESS(f"✅ Created {private_count} Private Rooms"))
+        self.stdout.write(self.style.SUCCESS(f"Created {private_count} Private Rooms"))
 
         for _ in range(conference_count):
             Room.objects.create(room_type='CONFERENCE', capacity=10)
-        self.stdout.write(self.style.SUCCESS(f"✅ Created {conference_count} Conference Rooms"))
+        self.stdout.write(self.style.SUCCESS(f"Created {conference_count} Conference Rooms"))
 
         for _ in range(shared_count):
             Room.objects.create(room_type='SHARED', capacity=4)
-        self.stdout.write(self.style.SUCCESS(f"✅ Created {shared_count} Shared Desks"))
+        self.stdout.write(self.style.SUCCESS(f"Created {shared_count} Shared Desks"))
 
         total = private_count + conference_count + shared_count
-        self.stdout.write(self.style.SUCCESS(f"🎉 Successfully created {total} rooms in total"))
+        self.stdout.write(self.style.SUCCESS(f"Successfully created {total} rooms in total!"))
