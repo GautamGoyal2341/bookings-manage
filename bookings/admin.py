@@ -3,7 +3,7 @@ from .models import User, Team, Room, Booking
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name', 'age', 'gender', 'team','uk08']
+    list_display = ['id', 'name', 'age', 'gender', 'team','uk07']
     list_filter = ['gender', 'age']
     search_fields = ['name']
 
